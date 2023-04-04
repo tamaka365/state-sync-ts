@@ -18,16 +18,22 @@ export default class Store {
     this.#target.dispatchEvent(this.#createEvent($$state[this.#key]));
   }
 
-  on(key: string, listener: any) {
+  on(key: string, listener: (value: any) => void) {
     const state = $$state[this.#key];
 
     if (state) {
       listener(state[key]);
     }
 
-    this.#target.addEventListener('state', event => {
+    const eventHandler = (event: Event) => {
+      if (!listener) {
+        this.#target.removeEventListener('state', eventHandler);
+      }
+
       const { detail } = event as any as { detail: stateType };
       listener(detail[key]);
-    });
+    };
+
+    this.#target.addEventListener('state', eventHandler);
   }
 }

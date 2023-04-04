@@ -22,7 +22,7 @@
     "dist/",
     "dist/types/"
   ],
-  "main": "dist/index.cjs",
+  "main": "dist/index.js",
   "module": "dist/index.js",
   "scripts": {
     "dev": "vite",
